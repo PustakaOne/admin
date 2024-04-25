@@ -18,7 +18,8 @@ public class AdminController {
     @Autowired
     private AdminService service;
 
-    private LogDeleteService logService = new LogDeleteService();
+    @Autowired
+    private LogDeleteService logService;
 
     @GetMapping("/admin/payments")
     public Mono<ResponseEntity<ArrayList<Cart>>> getPayments() {
@@ -33,5 +34,5 @@ public class AdminController {
     @GetMapping("/admin/logs")
     public List<Log> getLogs() {
         return logService.getAllLog();
-    } 
+    }
 }

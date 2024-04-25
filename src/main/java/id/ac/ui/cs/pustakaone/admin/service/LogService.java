@@ -1,5 +1,6 @@
 package id.ac.ui.cs.pustakaone.admin.service;
 import id.ac.ui.cs.pustakaone.admin.repository.LogRepository;
+import id.ac.ui.cs.pustakaone.admin.model.Log;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -7,21 +8,17 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import id.ac.ui.cs.pustakaone.admin.model.Log;
 
 public abstract class LogService {
-    LogRepository logRepository; 
 
     @Autowired
-    public LogService(){
-        logRepository = new LogRepository();
-    }
+    private LogRepository logRepository;
     
     public Log createLog(String id){
         String date = getCurrentDate();
         String action = action(id);
         Log log = new Log(action, date);
-        return logRepository.createLog(log);
+        return logRepository.save(log);
     }
 
     public abstract String action(String id);
@@ -33,7 +30,7 @@ public abstract class LogService {
     }
 
     public List<Log> getAllLog(){
-        return logRepository.allLog();
+        return logRepository.findAll();
     }
 
 }

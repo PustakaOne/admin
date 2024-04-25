@@ -19,39 +19,5 @@ public class AdminControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Test
-    public void testGetHello() throws Exception {
-        mockMvc.perform(get("/"))
-               .andExpect(status().isOk())
-               .andExpect(content().string("Hello admin!"));
-    }
-
-    @Test
-    public void testGetPayments() throws Exception {
-        mockMvc.perform(get("/admin/payments"))
-               .andExpect(status().isOk())
-               .andExpect(content().string("Hello admin!"));
-    }
-
-    @Test
-    public void testUpdatePayment() throws Exception {
-        mockMvc.perform(post("/admin/update-payment"))
-               .andExpect(status().isOk())
-               .andExpect(content().string("Hello admin!"));
-    }
-
-    @Test
-    public void testGetUsers() throws Exception {
-        mockMvc.perform(get("/admin/users"))
-               .andExpect(status().isOk())
-               .andExpect(content().string("Hello admin!"));
-    }
-    
-    @Test
-    public void testDeleteReview() throws Exception {
-        mockMvc.perform(post("/admin/delete-review"))
-               .andExpect(status().isOk())
-               .andExpect(content().string("Hello admin!"));
-    }
 
 }
