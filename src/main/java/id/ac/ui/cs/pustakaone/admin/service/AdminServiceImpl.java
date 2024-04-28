@@ -17,10 +17,9 @@ public class AdminServiceImpl implements AdminService{
     private AdminRepository adminRepository;
 
     @Override
-    public Mono<ResponseEntity<ArrayList<Cart>>> retrievePaymentList() {
+    public Mono<ResponseEntity<String>> retrievePaymentList() {
         return adminRepository.retrievePaymentList()
-                .map(paymentList -> ResponseEntity.ok(paymentList))
-                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                .onErrorResume(e -> Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()));
     }
 
     @Override

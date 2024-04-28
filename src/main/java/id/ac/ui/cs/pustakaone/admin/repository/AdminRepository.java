@@ -1,6 +1,7 @@
 package id.ac.ui.cs.pustakaone.admin.repository;
 
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -19,13 +20,11 @@ public class AdminRepository {
         webClient = webClientAlter;
     }
 
-    public Mono<ArrayList<Cart>> retrievePaymentList() {
+    public Mono<ResponseEntity<String>> retrievePaymentList() {
         return webClient.get()
-                .uri("https://bookshop.pustakaone.my.id/shop/getAllCart")
+                .uri("http://localhost:8080/all-cart")
                 .retrieve()
-                .bodyToFlux(Cart.class) 
-                .collectList() 
-                .map(ArrayList::new); 
+                .toEntity(String.class);
     }  
 
     public Mono<ArrayList<User>> retrieveUsers() {

@@ -22,7 +22,7 @@ public class AdminController {
     private LogDeleteService logService;
 
     @GetMapping("/admin/payments")
-    public Mono<ResponseEntity<ArrayList<Cart>>> getPayments() {
+    public Mono<ResponseEntity<String>> getPayments() {
         return service.retrievePaymentList();
     } 
 

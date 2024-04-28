@@ -8,6 +8,6 @@ import id.ac.ui.cs.pustakaone.admin.model.User;
 import reactor.core.publisher.Mono;
 
 public interface AdminService {
-    public Mono<ResponseEntity<ArrayList<Cart>>> retrievePaymentList();
+    public Mono<ResponseEntity<String>> retrievePaymentList();
     public Mono<ResponseEntity<ArrayList<User>>> retrieveUsers();    
 }
