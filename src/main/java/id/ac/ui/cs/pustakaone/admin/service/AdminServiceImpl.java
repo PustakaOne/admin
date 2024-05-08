@@ -1,5 +1,7 @@
 package id.ac.ui.cs.pustakaone.admin.service;
 
+import java.util.concurrent.CompletableFuture;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,13 +21,12 @@ public class AdminServiceImpl implements AdminService{
     private LogUpdateService logUpService;
 
     @Override
-    public ResponseEntity<String> retrievePaymentList() {
-
+    public CompletableFuture<ResponseEntity<String>> retrievePaymentList() {
         return adminRepository.retrievePaymentList();
     }
 
     @Override
-    public ResponseEntity<String> retrieveUsers(){
+    public CompletableFuture<ResponseEntity<String>> retrieveUsers(){
         return adminRepository.retrieveUsers();
     }
 

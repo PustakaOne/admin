@@ -1,8 +1,10 @@
 package id.ac.ui.cs.pustakaone.admin.repository;
 
 import java.util.HashMap;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.http.*;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
@@ -12,17 +14,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Repository
 public class AdminRepository {
 
-    
     private RestTemplate restTemplate = new RestTemplate();
 
-    public ResponseEntity<String> retrievePaymentList() {
+    @Async
+    public CompletableFuture<ResponseEntity<String>> retrievePaymentList() {
         String url = "http://localhost:8081/shop/cart/getCarts";
-        return restTemplate.exchange(url, HttpMethod.GET, null, String.class);
+        return CompletableFuture.supplyAsync(() -> restTemplate.exchange(url, HttpMethod.GET, null, String.class));
     }
 
-    public ResponseEntity<String> retrieveUsers() {
+    @Async
+    public CompletableFuture<ResponseEntity<String>> retrieveUsers() {
         String url = "https://identity.pustakaone.my.id/auth/getAllUser";
-        return restTemplate.exchange(url, HttpMethod.GET, null, String.class);
+        return CompletableFuture.supplyAsync(() -> restTemplate.exchange(url, HttpMethod.GET, null, String.class));
     }
 
     public ResponseEntity<String> updatePayment(Long idCart) {

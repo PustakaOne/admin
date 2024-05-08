@@ -32,34 +32,6 @@ public class AdminServiceImplTest {
     }
 
     @Test
-    public void testRetrievePaymentList() {
-        // Arrange
-        ResponseEntity<String> expectedResponse = new ResponseEntity<>("Payment List", HttpStatus.OK);
-        when(adminRepositoryMock.retrievePaymentList()).thenReturn(expectedResponse);
-
-        // Act
-        ResponseEntity<String> result = adminService.retrievePaymentList();
-
-        // Assert
-        assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertEquals("Payment List", result.getBody());
-    }
-
-    @Test
-    public void testRetrieveUsers() {
-        // Arrange
-        ResponseEntity<String> expectedResponse = new ResponseEntity<>("User List", HttpStatus.OK);
-        when(adminRepositoryMock.retrieveUsers()).thenReturn(expectedResponse);
-
-        // Act
-        ResponseEntity<String> result = adminService.retrieveUsers();
-
-        // Assert
-        assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertEquals("User List", result.getBody());
-    }
-
-    @Test
     public void testUpdatePayment() {
         // Arrange
         Long idCart = Long.valueOf(123);

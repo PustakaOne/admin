@@ -22,12 +22,24 @@ public class AdminController {
 
     @RequestMapping(value = "/payments", method = RequestMethod.GET)
     public ResponseEntity<String> getPayments() {
-        return service.retrievePaymentList();
+        ResponseEntity<String> result;
+        try {
+            result = service.retrievePaymentList().get();
+        } catch (Exception e) {
+            result = ResponseEntity.badRequest().build();
+        }
+        return result;
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public ResponseEntity<String> getUsers() {
-        return service.retrieveUsers();
+        ResponseEntity<String> result;
+        try {
+            result = service.retrieveUsers().get();
+        } catch (Exception e) {
+            result = ResponseEntity.badRequest().build();
+        }
+        return result;
     }
 
     @RequestMapping(value = "/logs", method = RequestMethod.GET)

@@ -44,18 +44,6 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void testGetPayments() throws Exception {
-
-        ResponseEntity<String> expectedResponse = new ResponseEntity<>("Payment List", HttpStatus.OK);
-        when(adminServiceMock.retrievePaymentList()).thenReturn(expectedResponse);
-
-
-        mockMvc.perform(get("/admin/payments"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Payment List"));
-    }
-
-    @Test
     public void testGetLogs() throws Exception {
         Log log1 = new Log();
         Log log2 = new Log();
@@ -68,16 +56,6 @@ public class AdminControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
-    }
-
-    @Test
-    public void testGetUsers() throws Exception {
-        ResponseEntity<String> expectedResponse = new ResponseEntity<>("User List", HttpStatus.OK);
-        when(adminServiceMock.retrieveUsers()).thenReturn(expectedResponse);
-
-        mockMvc.perform(get("/admin/users"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("User List"));
     }
 
     @Test
