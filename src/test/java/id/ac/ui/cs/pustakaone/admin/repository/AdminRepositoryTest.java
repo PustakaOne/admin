@@ -29,36 +29,42 @@ public class AdminRepositoryTest {
     @InjectMocks
     private AdminRepository adminRepository;
 
-    // @Test
-    // public void testRetrievePaymentList() throws InterruptedException, ExecutionException, TimeoutException {
+    @Test
+    public void testRetrievePaymentList() throws ExecutionException, InterruptedException {
+        // Setup
+        String expectedResponse = "response";
+        when(restTemplate.exchange(
+                "http://localhost:8081/shop/cart/getCarts",
+                HttpMethod.GET,
+                null,
+                String.class
+        )).thenReturn(new ResponseEntity<>(expectedResponse, HttpStatus.OK));
 
-    //     ResponseEntity<String> expectedResponse = new ResponseEntity<>("Payment List", HttpStatus.OK);
-    //     CompletableFuture<ResponseEntity<String>> future = new CompletableFuture<>();
-    //     future.complete(expectedResponse);
-    //     String url = "http://localhost:8081/shop/cart/getCarts";
-    //     when(restTemplate.exchange(url, HttpMethod.GET, null, String.class)).thenAnswer(invocation -> future);
+        // Execution
+        CompletableFuture<ResponseEntity<String>> future = adminRepository.retrievePaymentList();
+        ResponseEntity<String> response = future.get();
 
-    //     CompletableFuture<ResponseEntity<String>> resultFuture = adminRepository.retrievePaymentList();
-    //     ResponseEntity<String> result = resultFuture.get(1, TimeUnit.SECONDS);
+        // Verification
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(expectedResponse, response.getBody());
+    }
 
-    //     assertEquals(HttpStatus.OK, result.getStatusCode());
-    //     assertEquals("Payment List", result.getBody());
-    // }
+    @Test
+    public void testRetrieveUsers() throws ExecutionException, InterruptedException {
+        String expectedResponse = "user list";
+        when(restTemplate.exchange(
+                "https://identity.pustakaone.my.id/auth/getAllUser",
+                HttpMethod.GET,
+                null,
+                String.class
+        )).thenReturn(new ResponseEntity<>(expectedResponse, HttpStatus.OK));
 
-    // @Test
-    // public void testRetrieveUsers() throws InterruptedException, ExecutionException, TimeoutException {
-    //     ResponseEntity<String> expectedResponse = new ResponseEntity<>("User List", HttpStatus.OK);
-    //     CompletableFuture<ResponseEntity<String>> future = CompletableFuture.completedFuture(expectedResponse);
-    //     String url = "https://identity.pustakaone.my.id/auth/getAllUser";
-    //     when(restTemplate.exchange(url, HttpMethod.GET, null, String.class))
-    //             .thenAnswer(invocation -> future);
+        CompletableFuture<ResponseEntity<String>> future = adminRepository.retrieveUsers();
+        ResponseEntity<String> response = future.get();
 
-    //     CompletableFuture<ResponseEntity<String>> resultFuture = adminRepository.retrieveUsers();
-    //     ResponseEntity<String> result = resultFuture.get(10, TimeUnit.SECONDS);
-
-    //     assertEquals(HttpStatus.OK, result.getStatusCode());
-    //     assertEquals("User List", result.getBody());
-    // }
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(expectedResponse, response.getBody());
+    }
 
 
     @Test

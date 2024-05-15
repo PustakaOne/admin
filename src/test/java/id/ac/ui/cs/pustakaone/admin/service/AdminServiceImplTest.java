@@ -12,6 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+
 @SpringBootTest
 public class AdminServiceImplTest {
 
@@ -31,6 +34,38 @@ public class AdminServiceImplTest {
     void setUp() {
     }
 
+
+    @Test
+    public void testRetrievePaymentList() throws ExecutionException, InterruptedException {
+        // Setup
+        String expectedResponse = "payment list";
+        CompletableFuture<ResponseEntity<String>> mockedFuture = CompletableFuture.completedFuture(new ResponseEntity<>(expectedResponse, HttpStatus.OK));
+        when(adminRepositoryMock.retrievePaymentList()).thenReturn(mockedFuture);
+
+        // Execution
+        CompletableFuture<ResponseEntity<String>> future = adminService.retrievePaymentList();
+        ResponseEntity<String> response = future.get();
+
+        // Verification
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(expectedResponse, response.getBody());
+    }
+
+    @Test
+    public void testRetrieveUsers() throws ExecutionException, InterruptedException {
+        // Setup
+        String expectedResponse = "user list";
+        CompletableFuture<ResponseEntity<String>> mockedFuture = CompletableFuture.completedFuture(new ResponseEntity<>(expectedResponse, HttpStatus.OK));
+        when(adminRepositoryMock.retrieveUsers()).thenReturn(mockedFuture);
+
+        // Execution
+        CompletableFuture<ResponseEntity<String>> future = adminService.retrieveUsers();
+        ResponseEntity<String> response = future.get();
+
+        // Verification
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(expectedResponse, response.getBody());
+    }
     @Test
     public void testUpdatePayment() {
         // Arrange

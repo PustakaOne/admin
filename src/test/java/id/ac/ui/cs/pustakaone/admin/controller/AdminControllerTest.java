@@ -17,7 +17,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -44,6 +47,36 @@ public class AdminControllerTest {
     }
 
     @Test
+    public void testGetPayments() throws ExecutionException, InterruptedException {
+        // Setup
+        String expectedResponse = "payment data";
+        CompletableFuture<ResponseEntity<String>> future = CompletableFuture.completedFuture(new ResponseEntity<>(expectedResponse, HttpStatus.OK));
+        when(adminServiceMock.retrievePaymentList()).thenReturn(future);
+
+        // Execution
+        ResponseEntity<String> response = adminController.getPayments();
+
+        // Verification
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(expectedResponse, response.getBody());
+    }
+
+    @Test
+    public void testGetUsers() throws ExecutionException, InterruptedException {
+        // Setup
+        String expectedResponse = "user data";
+        CompletableFuture<ResponseEntity<String>> future = CompletableFuture.completedFuture(new ResponseEntity<>(expectedResponse, HttpStatus.OK));
+        when(adminServiceMock.retrieveUsers()).thenReturn(future);
+
+        // Execution
+        ResponseEntity<String> response = adminController.getUsers();
+
+        // Verification
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(expectedResponse, response.getBody());
+    }
+
+    @Test
     public void testGetLogs() throws Exception {
         Log log1 = new Log();
         Log log2 = new Log();
@@ -56,6 +89,33 @@ public class AdminControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
+    }
+    @Test
+    public void testGetPayments_Exception() {
+        // Setup
+        CompletableFuture<ResponseEntity<String>> future = new CompletableFuture<>();
+        future.completeExceptionally(new RuntimeException("Error"));
+        when(adminServiceMock.retrievePaymentList()).thenReturn(future);
+
+        // Execution
+        ResponseEntity<String> response = adminController.getPayments();
+
+        // Verification
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    public void testGetUsers_Exception() {
+        // Setup
+        CompletableFuture<ResponseEntity<String>> future = new CompletableFuture<>();
+        future.completeExceptionally(new RuntimeException("Error"));
+        when(adminServiceMock.retrieveUsers()).thenReturn(future);
+
+        // Execution
+        ResponseEntity<String> response = adminController.getUsers();
+
+        // Verification
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
